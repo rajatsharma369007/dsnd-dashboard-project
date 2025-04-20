@@ -1,8 +1,4 @@
 # Import any dependencies needed to execute sql queries
-import pandas as pd
-from sqlite3 import connect
-from functools import wraps
-from pathlib import Path
 from .sql_execution import QueryMixin
 
 # Define a class called QueryBase
@@ -54,8 +50,9 @@ class QueryBase(QueryMixin):
             SELECT event_date, 
                    SUM(positive_events) positive_events,
                    SUM(negative_events) negative_events
-            FROM employee_events
-            WHERE {self.name}_id = {id}
+            FROM {self.name}
+            JOIN employee_events USING({self.name}_id)
+            WHERE {self.name}.{self.name}_id = {id}
             GROUP BY event_date
             ORDER BY event_date
         """
@@ -81,10 +78,13 @@ class QueryBase(QueryMixin):
         # so the query returns the notes
         # for the table name in the `name` class attribute
         sql_query = f"""
-            SELECT note_date, 
-                   note
+            SELECT 
+                note_date, 
+                note
             FROM notes
-            WHERE {self.name}_id = {id}
+            JOIN {self.name}
+            USING ({self.name}_id)
+            WHERE {self.name}.{self.name}_id = {id}
         """
         return self.pandas_query(sql_query)
 

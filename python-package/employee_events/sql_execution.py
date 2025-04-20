@@ -5,7 +5,7 @@ import pandas as pd
 
 # Using pathlib, create a `db_path` variable
 # that points to the absolute path for the `employee_events.db` file
-db_path = Path(__file__).parent / 'employee_events.db'
+db_path = Path(__file__).parent.resolve() / 'employee_events.db'
 
 
 # OPTION 1: MIXIN
@@ -16,7 +16,7 @@ class QueryMixin:
     # that receives an sql query as a string
     # and returns the query's result
     # as a pandas dataframe
-    def pandas_query(self, sql_query: str):
+    def pandas_query(self, sql_query):
         # Use the `connect` method to connect to the database
         connection = connect(db_path)
         # Use the `pd.read_sql_query` method to execute the query
