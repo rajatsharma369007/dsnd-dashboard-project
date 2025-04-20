@@ -6,15 +6,18 @@ name: Lint
 on:
   push:
     branches: [ main ]
+    paths_ignore:
+      - 'src/build_project_assests.py'
+      - 'report/combined_components/**'
+      - 'report/base_components/**'
+      - 'python_package/**'
   pull_request:
     branches: [ main ]
     paths_ignore:
-      - './src/build_project_assests.py'
-      - './report/combined_components/*'
-      - './report/base_components/*'
-      - './python_package/*'
-
-
+      - 'src/build_project_assests.py'
+      - 'report/combined_components/**'
+      - 'report/base_components/**'
+      - 'python_package/**'
 
 jobs:
   build:
